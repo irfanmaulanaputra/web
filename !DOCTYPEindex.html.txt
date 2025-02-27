@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akses Kamera & File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        video {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Akses Kamera & File</h1>
+
+    <!-- Tombol untuk mengakses kamera -->
+    <button id="cameraButton">Akses Kamera</button>
+    <video id="video" autoplay style="display:none;"></video>
+
+    <!-- Tombol untuk mengakses file -->
+    <br><br>
+    <input type="file" id="fileInput" />
+    <p id="fileName"></p>
+
+    <script>
+        // Akses kamera
+        const video = document.getElementById('video');
+        const cameraButton = document.getElementById('cameraButton');
+
+        cameraButton.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                video.style.display = 'block';
+                cameraButton.disabled = true;
+            } catch (error) {
+                alert('Tidak dapat mengakses kamera: ' + error.message);
+            }
+        });
+
+        // Akses file
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileName');
+
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files[0];
+            if (file) {
+                fileNameDisplay.textContent = `File dipilih: ${file.name}`;
+            } else {
+                fileNameDisplay.textContent = 'Tidak ada file dipilih.';
+            }
+        });
+    </script>
+</body>
+</html>
